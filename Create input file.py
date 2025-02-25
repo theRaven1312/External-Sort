@@ -1,6 +1,6 @@
 import random
 
-# Tạo danh sách 100 số ngẫu nhiên từ 1 đến 100
+# Tạo danh sách 100 số ngẫu nhiên từ 1 đến 1000
 random_numbers = [random.randint(1, 100) for _ in range(1000)]
 
 # Ghi danh sách số vào file txt

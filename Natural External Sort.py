@@ -79,4 +79,3 @@ external_sort(input_file, output_file, run_size)
 
 # In kết quả
 print("Dữ liệu đã sắp xếp lưu tại", output_file)
-print("Kết quả sắp xếp:", read_from_file(output_file))
