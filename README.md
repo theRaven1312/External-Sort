@@ -5,3 +5,26 @@
 ## SINH VIÊN THỰC HIỆN:
 23520513 - ĐẶNG VIỆT HOÀNG
 23520422 - TRẦN HOÀNG HẢI
+
+## YÊU CẦU CỦA CHƯƠNG TRÌNH SẮP XẾP NGOẠI:
+
+- ĐẦU VÀO: một mảng các số nguyên, độ lớn vùng nhớ (max memory size)
+- ĐẦU RA: mảng đã được sắp xếp bằng thuật toán sắp xếp ngoại
+
+### ĐỐI VỚI NATURAL MERGE SORT
+
+Tạo một hàm tìm các đường chạy.
+Tạo một min heap để tìm giá trị nhỏ nhất trong các đường chạy
+Tạo một hàm trộn các đường chạy.
+
+### ĐỐI VỚI MULTIWAY BALANCE MERGE SORT
+
+Tạo một hàm chia mảng ra thành nhiều đường chạy lưu trữ lớn nhất max memory size phần tử.
+Tạo một hàm sắp xếp các phần tử trong các đường chạy (chọn Quicksort).
+Tạo một min heap để tìm giá trị nhỏ nhất trong các đường chạy.
+Tạo một hàm trộn các đường chạy.
+
+
+
+
+
