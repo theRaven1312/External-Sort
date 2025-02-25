@@ -13,16 +13,16 @@
 
 ### ĐỐI VỚI NATURAL MERGE SORT
 
-Tạo một hàm tìm các đường chạy.
-Tạo một min heap để tìm giá trị nhỏ nhất trong các đường chạy
-Tạo một hàm trộn các đường chạy.
+1. Tạo một hàm tìm các đường chạy.
+2. Tạo một min heap để tìm giá trị nhỏ nhất trong các đường chạy
+3. Tạo một hàm trộn các đường chạy.
 
 ### ĐỐI VỚI MULTIWAY BALANCE MERGE SORT
 
-Tạo một hàm chia mảng ra thành nhiều đường chạy lưu trữ lớn nhất max memory size phần tử.
-Tạo một hàm sắp xếp các phần tử trong các đường chạy (chọn Quicksort).
-Tạo một min heap để tìm giá trị nhỏ nhất trong các đường chạy.
-Tạo một hàm trộn các đường chạy.
+1. Tạo một hàm chia mảng ra thành nhiều đường chạy lưu trữ lớn nhất max memory size phần tử.
+2. Tạo một hàm sắp xếp các phần tử trong các đường chạy (chọn Quicksort).
+3. Tạo một min heap để tìm giá trị nhỏ nhất trong các đường chạy.
+4. Tạo một hàm trộn các đường chạy.
 
 
 
