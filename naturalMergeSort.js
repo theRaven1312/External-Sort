@@ -1,5 +1,6 @@
 class MinHeap {
-    constructor() {
+    constructor() 
+    {
         this.heap = [];
     }
 
@@ -7,16 +8,19 @@ class MinHeap {
     getLeftChildIndex(i) { return 2 * i + 1; }
     getRightChildIndex(i) { return 2 * i + 2; }
 
-    swap(i, j) {
+    swap(i, j) 
+    {
         [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
     }
 
-    push(value) {
+    push(value) 
+    {
         this.heap.push(value);
         this.heapifyUp();
     }
 
-    pop() {
+    pop() 
+    {
         if (this.heap.length === 0) return null;
         if (this.heap.length === 1) return this.heap.pop();
 
@@ -26,7 +30,8 @@ class MinHeap {
         return root;
     }
 
-    heapifyUp() {
+    heapifyUp() 
+    {
         let index = this.heap.length - 1;
         while (index > 0 && this.heap[index].value < this.heap[this.getParentIndex(index)].value) {
             this.swap(index, this.getParentIndex(index));
@@ -34,7 +39,8 @@ class MinHeap {
         }
     }
 
-    heapifyDown() {
+    heapifyDown() 
+    {
         let index = 0;
         while (this.getLeftChildIndex(index) < this.heap.length) {
             let smallerChildIndex = this.getLeftChildIndex(index);
@@ -49,7 +55,8 @@ class MinHeap {
         }
     }
 
-    isEmpty() {
+    isEmpty() 
+    {
         return this.heap.length === 0;
     }
 }
@@ -116,7 +123,8 @@ function mergeRuns(runs)
     return result;
 }
 
-function naturalMergeSort(arr) {
+function naturalMergeSort(arr) 
+{
     let runs = findRuns(arr);
 
     if (runs.length === 1) return runs[0];
