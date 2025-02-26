@@ -1,136 +1,171 @@
-//Tạo hàm divideRuns(input, runSize) để chia mảng input thành các dãy con có kích thước runSize.
-function divideRuns(input, runSize) 
-{
-  const runs = [];
-  let run = [];
-  for (let i = 0; i < input.length; i++) 
-    {
-      run.push(input[i]);
-      if (run.length === runSize) 
-      {
-        runs.push(run);
-        run = [];
-      }
-  }
-  if (run.length > 0) 
-  {
-    runs.push(run);
-  }
-  return runs;
-}
-
-//Tạo hàm quickSort(arr) để sắp xếp runs bằng thuật toán quick sort.
-function quickSort(arr) 
-{
-  if (arr.length <= 1) 
-  {
-    return arr;
-  }
-  const pivot = arr[0];
-  const left = [];
-  const right = [];
-  for (let i = 1; i < arr.length; i++) 
-  {
-    if (arr[i] < pivot) 
-    {
-      left.push(arr[i]);
-    } 
-    else 
-    {
-      right.push(arr[i]);
-    }
-  }
-  return quickSort(left).concat(pivot, quickSort(right));
-}
-
-//Tạo một minHeap để truy xuất phần tử nhỏ nhất của các runs
-class MinHeap 
-{
+class MinHeap {
   constructor() 
   {
       this.heap = [];
   }
 
-  // Lấy chỉ số cha của một phần tử
-  parent(index) 
+  getParentIndex(i) { return Math.floor((i - 1) / 2); }
+  getLeftChildIndex(i) { return 2 * i + 1; }
+  getRightChildIndex(i) { return 2 * i + 2; }
+
+  swap(i, j) 
   {
-      return Math.floor((index - 1) / 2);
+      [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
   }
 
-  // Lấy chỉ số con trái
-  leftChild(index) 
-  {
-      return 2 * index + 1;
-  }
-
-  // Lấy chỉ số con phải
-  rightChild(index) 
-  {
-      return 2 * index + 2;
-  }
-
-  // Thêm một phần tử vào heap
-  insert(value) 
+  push(value) 
   {
       this.heap.push(value);
       this.heapifyUp();
   }
 
-  // Đưa phần tử vừa chèn lên đúng vị trí
-  heapifyUp() 
-  {
-      let index = this.heap.length - 1;
-      while (index > 0 && this.heap[index] < this.heap[this.parent(index)]) {
-          [this.heap[index], this.heap[this.parent(index)]] = 
-          [this.heap[this.parent(index)], this.heap[index]];
-          index = this.parent(index);
-      }
-  }
-
-  // Lấy phần tử nhỏ nhất (root) và xóa nó khỏi heap
-  extractMin() 
+  pop() 
   {
       if (this.heap.length === 0) return null;
       if (this.heap.length === 1) return this.heap.pop();
 
-      let min = this.heap[0];
+      const root = this.heap[0];
       this.heap[0] = this.heap.pop();
-      this.heapifyDown(0);
-      return min;
+      this.heapifyDown();
+      return root;
   }
 
-  // Đưa phần tử gốc xuống đúng vị trí sau khi xóa phần tử nhỏ nhất
-  heapifyDown(index) 
+  heapifyUp() 
   {
-      let left = this.leftChild(index);
-      let right = this.rightChild(index);
-      let smallest = index;
-
-      if (left < this.heap.length && this.heap[left] < this.heap[smallest]) {
-          smallest = left;
-      }
-      if (right < this.heap.length && this.heap[right] < this.heap[smallest]) {
-          smallest = right;
-      }
-      if (smallest !== index) {
-          [this.heap[index], this.heap[smallest]] = [this.heap[smallest], this.heap[index]];
-          this.heapifyDown(smallest);
+      let index = this.heap.length - 1;
+      while (index > 0 && this.heap[index].value < this.heap[this.getParentIndex(index)].value) {
+          this.swap(index, this.getParentIndex(index));
+          index = this.getParentIndex(index);
       }
   }
-  // Kiểm tra kích thước của heap
-  size() {
-      return this.heap.length;
+
+  heapifyDown() 
+  {
+      let index = 0;
+      while (this.getLeftChildIndex(index) < this.heap.length) {
+          let smallerChildIndex = this.getLeftChildIndex(index);
+          if (this.getRightChildIndex(index) < this.heap.length &&
+              this.heap[this.getRightChildIndex(index)].value < this.heap[smallerChildIndex].value) {
+              smallerChildIndex = this.getRightChildIndex(index);
+          }
+
+          if (this.heap[index].value < this.heap[smallerChildIndex].value) break;
+          this.swap(index, smallerChildIndex);
+          index = smallerChildIndex;
+      }
   }
 
-  // Kiểm tra heap có rỗng không
-  isEmpty() {
+  isEmpty() 
+  {
       return this.heap.length === 0;
   }
 }
 
-
-function merge(runs)
+function quickSort(arr)
 {
-
+  if(arr.length <= 1)
+  {
+      return arr;
+  }
+  let pivot = arr[0];
+  let left = [];
+  let right = [];
+  for(let i = 1; i < arr.length; i++)
+  {
+      if(arr[i] < pivot)
+      {
+          left.push(arr[i]);
+      }
+      else
+      {
+          right.push(arr[i]);
+      }
+  }
+  return quickSort(left).concat(pivot, quickSort(right));
 }
 
+function divideRuns(arr, maxMemory)
+{
+  let runs = [];
+  let count = 0;
+  let run = [];
+  for(let i = 0; i < arr.length; i++)
+  {
+      if(count === maxMemory)
+      {
+          runs.push(run);
+          run = [];
+          count = 0;
+      }
+      run.push(arr[i]);
+      count++;
+  }
+  if(run.length > 0)
+  {
+      runs.push(run);
+  }
+  return runs;
+}
+
+function mergeRuns(runs) 
+{
+  let minHeap = new MinHeap();
+  let result = [];
+
+  // Đưa phần tử đầu tiên của mỗi run vào heap
+  for (let i = 0; i < runs.length; i++) 
+  {
+      if (runs[i].length > 0) 
+      {
+          minHeap.push({ value: runs[i][0], runIndex: i, pos: 0 });
+      }
+  }
+
+  // Xử lý từng phần tử nhỏ nhất trong heap
+  while (!minHeap.isEmpty()) 
+  {
+      console.log('Min-Heap:');
+      for(let i = 0; i < minHeap.heap.length; i++)
+      {
+          console.log(minHeap.heap[i].value);
+      }
+      console.log('---------------------');
+      let { value, runIndex, pos } = minHeap.pop();
+      result.push(value);
+      
+      console.log('Result:');
+      for(let i = 0; i < result.length; i++)
+      {
+          console.log(result[i]);
+      }
+      console.log('---------------------');
+
+      // Nếu run đó còn phần tử, chèn tiếp vào heap
+      if (pos + 1 < runs[runIndex].length) 
+      {
+          minHeap.push({ value: runs[runIndex][pos + 1], runIndex, pos: pos + 1 });
+      }
+  }
+
+  return result;
+}
+
+function multiwayBalanceMergeSort(arr, maxMemory) 
+{
+  let runs = divideRuns(arr, maxMemory);
+  
+  for (let i = 0; i < runs.length; i++) 
+  {
+      runs[i] = quickSort(runs[i]);
+  }
+  if (runs.length === 1) return runs[0];
+
+  return mergeRuns(runs);
+}
+
+let arr = [1, 3, 7, 5, 4, 6, 9, 8, 2, 13, 11, 12, 10];
+let runs = divideRuns(arr, 3);
+console.log('Runs:', runs);
+
+let sortedArr = multiwayBalanceMergeSort(arr, 3);
+console.log('Sorted:', sortedArr);
