@@ -1,0 +1,44 @@
+#site
+{
+    margin: 0 auto
+}
+
+.header{
+    display: flex;
+    height: 82px;
+    align-items: center;
+    justify-content: space-around;
+    background-color:  black;
+    color: white;
+    border-radius: 10px;
+}
+
+#webname
+{
+    position: absolute;
+    left: 20px;
+    top: 37px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.item
+{
+    padding-bottom: 510px;
+    background-color: white;
+    border: 4px solid black;
+    height: 50px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.grid-container
+{
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 3fr repeat(4,1fr);
+    grid-auto-rows: minmax(100px, auto);
+    grid-column-gap: 50px;
+}
+
+
