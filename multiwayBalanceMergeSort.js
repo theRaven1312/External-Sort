@@ -127,17 +127,13 @@ function mergeRuns(runs)
       console.log('Min-Heap:');
       for(let i = 0; i < minHeap.heap.length; i++)
       {
-          console.log(minHeap.heap[i].value);
+        console.log(minHeap.heap[i].value);
       }
       console.log('---------------------');
       let { value, runIndex, pos } = minHeap.pop();
       result.push(value);
       
-      console.log('Result:');
-      for(let i = 0; i < result.length; i++)
-      {
-          console.log(result[i]);
-      }
+      console.log('Result:' + result);
       console.log('---------------------');
 
       // Nếu run đó còn phần tử, chèn tiếp vào heap
@@ -164,8 +160,9 @@ function multiwayBalanceMergeSort(arr, maxMemory)
 }
 
 let arr = [1, 3, 7, 5, 4, 6, 9, 8, 2, 13, 11, 12, 10];
+
 let runs = divideRuns(arr, 3);
 console.log('Runs:', runs);
 
 let sortedArr = multiwayBalanceMergeSort(arr, 3);
-console.log('Sorted:', sortedArr);
+console.log('Sorted:' + sortedArr);
