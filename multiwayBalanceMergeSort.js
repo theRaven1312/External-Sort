@@ -159,10 +159,4 @@ function multiwayBalanceMergeSort(arr, maxMemory)
   return mergeRuns(runs);
 }
 
-let arr = [1, 3, 7, 5, 4, 6, 9, 8, 2, 13, 11, 12, 10];
-
-let runs = divideRuns(arr, 3);
-console.log('Runs:', runs);
-
-let sortedArr = multiwayBalanceMergeSort(arr, 3);
-console.log('Sorted:' + sortedArr);
+export { divideRuns, quickSort };
