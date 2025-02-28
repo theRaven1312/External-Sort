@@ -131,9 +131,3 @@ function naturalMergeSort(arr)
 
     return mergeRuns(runs);
 }
-
-let arr = [1, 3, 7, 5, 4, 6, 9, 8, 2];
-let runs = findRuns(arr);
-console.log('Runs:', runs);
-let sortedArr = naturalMergeSort(arr);
-console.log('Sorted:', sortedArr);
