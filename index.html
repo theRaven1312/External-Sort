@@ -9,22 +9,44 @@
     <script type="module" src="script.js" defer></script>
 </head>
 <body>
-    <div id="site">
-
-        <div class="header">
-            <div id="webname" style="flex: 0 0 200px"> ExternalSort</div>
-            <div class="header-item"> NaturalMergeSort</div>
-            <div class="header-item"> MultiwayBalanceMergeSort</div>
+    <div class = "nav-bar">
+        <div class="nav-item">
+            <div id="site-title">External Sort</div>
         </div>
+        <div class="nav-item">
+            <p id = 'divider'>|</p>
+        </div>
+        <div class= 'nav-item nav-btn'>
+            <p>Natural Merge Sort</p>
+        </div>
+        <div class= 'nav-item nav-btn'>
+            <p>Multiway Balance Merge Sort</p>
+        </div>
+    </div>
 
-            <div class="grid-container">
-                <div class = "item-1 item"> box 1</div>
-                <div class = "item-2 item"> box 2</div>
-                <div class = "item-3 item"> box 3</div>
-                <div class = "item-4 item"> box 4</div>
-                <div class = "item-5 item"> box 5</div>
+    <div class = "grid-container">
+        <div id = 'pseudo' class="grid-item">
+            <div class= 'input-region'>
+                <input class="array-input" type="text" placeholder="Enter array">
+                <button class = 'submit-btn' id = 'submit-btn'>Submit</button>
             </div>
-
+            <div class= 'desc-region'>
+                <p class="array-input-desc">Nhập một mảng với các phần tử cách nhau một khoảng trắng " "
+                </p>
+                <p>Ví dụ: 1 2 3 4 5 6 7 8 9 10
+                </p>
+            </div>
+        </div>
+        <div class="grid-item">
+        </div>
+        <div class="grid-item">
+        </div>
+        <div class="grid-item">
+        </div>
+        <div class="grid-item">
+        </div>
+        <div class="grid-item">
+        </div>
     </div>
 </body>
 </html>
