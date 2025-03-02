@@ -153,11 +153,17 @@ body
                 font-weight: bold;
             }
         }
+        h1
+        {
+            text-align: center;
+        }
         .step
         {
             font-size: large;
             margin:20px;
-            color:grey
+            color:grey;
+            transition: all 0.25s ease-out;
+            text-align: center;
         }
         .play-btn
         {
@@ -205,6 +211,32 @@ body
             .array-item:hover
             {
                 transform: scale(1.2);
+            }
+        }
+    }
+    #runs-region
+    {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        padding:20px 10px;
+        .run-holder
+        {
+            display: flex;
+            flex-direction: column;
+            gap:5px;
+            border: 1px solid black;
+            padding:10px;
+            border-radius: 10px;
+            width: 100%;
+            background-color:#4CAF50;
+            .run-item
+            {
+                text-align: center;
+                border: 1px solid black;
+                border-radius: 5px;
+                background-color: white;
             }
         }
     }
