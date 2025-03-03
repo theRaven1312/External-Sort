@@ -130,6 +130,7 @@ function mergeRuns(runs)
         console.log(minHeap.heap[i].value);
       }
       console.log('---------------------');
+      
       let { value, runIndex, pos } = minHeap.pop();
       result.push(value);
       
@@ -159,4 +160,4 @@ function multiwayBalanceMergeSort(arr, maxMemory)
   return mergeRuns(runs);
 }
 
-export { divideRuns, quickSort };
+export { divideRuns, quickSort, MinHeap };

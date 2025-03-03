@@ -5,7 +5,7 @@
 
 html
 {
-    background-color: rgb(249, 249, 249);
+    background-color: rgb(248, 248, 248);
 }
 
 body
@@ -68,7 +68,8 @@ body
 {
     margin: 20px 40px;
     display: grid;
-    grid-template-columns: 2fr repeat(5, 1fr);
+    grid-template-columns: 2fr repeat(4, 1fr);
+    grid-auto-flow: column;
     gap:30px;
     .grid-item:nth-child(1)
     {
@@ -83,6 +84,10 @@ body
         border-radius: 20px;
         opacity: 0;
         background-color: white;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        padding:20px;
     }
     height: calc(100vh - 40px - 12vh);
     #pseudo
@@ -190,18 +195,20 @@ body
     }
     #ori-array
     {
+        display:flex;
+        flex-direction: column;
+        padding:20px;
         font-size: large;
         font-weight: bold;
         .array-holder
         {
-            display: grid;
-            grid-template-columns: 1fr;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
             gap:20px;
             align-items: center;
+            width: 100%;
             .array-item
             {
-                display: block;
                 width: 100%;
                 border: 1px solid black;
                 border-radius: 20px;
@@ -212,6 +219,10 @@ body
             {
                 transform: scale(1.2);
             }
+        }
+        .ori-header
+        {
+            text-align: center;
         }
     }
     #runs-region
@@ -238,6 +249,48 @@ body
                 border-radius: 5px;
                 background-color: white;
             }
+        }
+    }
+    #heap-region
+    {
+        .heap-header
+        {
+            text-align: center;
+            font-size: normal;
+        }
+        display: flex;
+        flex-direction: column;
+        gap:20px;
+        align-items: center;
+        font-size: large;
+        font-weight: bold;
+        .heap-item
+        {
+            display: block;
+            width: 100%;
+            text-align: center;
+            border: 1px solid black;
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+    }
+    #result-region
+    {
+        gap:20px;
+        .result-header
+        {
+            text-align: center;
+        }
+        .result-item
+        {
+            width: 100%;
+            text-align: center;
+            padding:10px 20px;
+            border:1px solid black;
+            border-radius: 20px;
+            font-size: large;
+            font-weight: bold;
+
         }
     }
 }
