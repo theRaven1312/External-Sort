@@ -1,8 +1,13 @@
+import { MinHeap } from "./multiwayBalanceMergeSort.js";
+
+const html = document.querySelector('html');
 const input = document.querySelector('.array-input');
 const submitbtn = document.querySelector('.submit-btn');
 const oriarray = document.querySelector('#ori-array');
 const pseudo = document.querySelector('#pseudo');
 const runsRegion = document.querySelector('#runs-region');
+const heapRegion = document.querySelector('#heap-region');
+const resultRegion = document.querySelector('#result-region');
 
 let arr = [];
 
@@ -106,12 +111,36 @@ function play() {
         step2.style.fontWeight = 'bold';
         step2.style.color = 'green';
         stage = 2;
+
+    //Biểu diễn Heap
+        heapRegion.style.opacity = 1;
+    //Thêm tiêu đề
+        let heapHeader = document.createElement('h2');
+        heapHeader.classList.add('heap-header');
+        heapHeader.textContent = 'Min-Heap';
+        heapRegion.appendChild(heapHeader);
+
+        addHeap(runs);
+
+        resultRegion.style.opacity = 1;
+
+        let resultHeader = document.createElement('h2');
+        resultHeader.classList.add('result-header');
+        resultHeader.textContent = 'Sorted Array';
+        resultRegion.appendChild(resultHeader);
     }
+        else if(stage > 1 && !minHeap.isEmpty())
+    {
+        sortWithHeap();
+    }
+        
 }
+
+
+let runs = [];
 
 function findRuns(arr)
 {
-    let runs = [];
     let run = [arr[0]];
     for(let i = 0; i < arr.length; i++)
     {
@@ -144,4 +173,88 @@ function findRuns(arr)
     }
 
 }
+
+let minHeap = new MinHeap();
+
+function addHeap()
+{
+    //Thêm phần tử đầu vào heap
+    for (let i = 0; i < runs.length; i++) 
+    {
+        if (runs[i].length > 0) 
+        {
+            minHeap.push({ value: runs[i][0], runIndex: i, pos: 0 });
+            //Xóa phần tử đó
+            runs[i].splice(0, 1);
+        }
+    }
+
+    console.log(runs);
+
+    //Biểu diễn Heap
+    for(let i = 0; i < minHeap.heap.length; i++)
+    {
+        let heapItem = document.createElement('div');
+        heapItem.classList.add('heap-item');
+        heapItem.textContent = minHeap.heap[i].value;
+        heapRegion.appendChild(heapItem);
+        
+    }
+
+    //Cập nhật lại các runs
+
+    let runHolders = document.querySelectorAll('.run-holder');
+    for(let i = 0; i < runHolders.length; i++)
+    {
+        const firstRunItem = runHolders[i].querySelector('.run-item'); // Chọn phần tử đầu tiên
+        if (firstRunItem) 
+        {
+            firstRunItem.remove(); // Xóa phần tử
+        }
+    }
+}
+
+let resultArray = [];
+
+function sortWithHeap()
+{
+    let minElement = minHeap.pop();
+    resultArray.push(minElement.value);
+
+    let resultItem = document.createElement('div');
+    resultItem.classList.add('result-item');
+    resultItem.textContent = minElement.value;
+    resultRegion.appendChild(resultItem);
+   
+
+    if (runs[minElement.runIndex].length > 0) 
+    {
+        minHeap.push({ value: runs[minElement.runIndex][0], runIndex: minElement.runIndex, pos: 0 });
+        runs[minElement.runIndex].splice(0, 1);
+    }
+    
+    let heapItems = document.querySelectorAll('.heap-item');
+    heapItems.forEach(item => item.remove());
+
+    for (let i = 0; i < minHeap.heap.length; i++) {
+        let heapItem = document.createElement('div');
+        heapItem.classList.add('heap-item');
+        heapItem.textContent = minHeap.heap[i].value;
+        heapRegion.appendChild(heapItem);
+    }
+
+    let runHolders = document.querySelectorAll('.run-holder');
+    let firstRunItem = runHolders[minElement.runIndex].querySelector('.run-item');
+    if (firstRunItem) 
+    {
+        firstRunItem.remove();
+        if(runs[minElement.runIndex].length == 0)
+        {
+            runHolders[minElement.runIndex].remove();
+        }
+    }
+}
+
+
+let playbtn = document.querySelector('.play-btn');
 

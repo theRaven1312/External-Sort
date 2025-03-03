@@ -10,6 +10,7 @@ function loadScript(scriptName) {
     script.src = scriptName;
     script.type = "module"; 
     script.defer = true; 
+    script.id = "dynamic-script";
 
     // Thêm script vào body
     document.body.appendChild(script);
