@@ -19,14 +19,14 @@ function takeInput(e)
 
         if (arr.length === 0) 
         {
-           alert('Mảng không được rỗng');
+           generateWarning('Mảng không được rỗng');
             return;
         }
         arr = arr.split(' ').map(Number);
 
         if (arr.includes(NaN))
         {
-            alert('Mảng có chứa ký tự không phải số và khoảng trắng');
+            generateWarning('Mảng có chứa ký tự không phải số hoặc khoảng trắng');
             return;
         }
         
@@ -62,6 +62,21 @@ function takeInput(e)
 
         addSteps('NMS');
     }
+}
+
+function generateWarning(message) 
+{
+    let warning = document.createElement('div');
+    warning.classList.add('warning');
+    warning.textContent = "Warning: " + message;
+    warning.style.color = 'red';
+    warning.style.fontWeight = 'bold';
+    let descRegion = document.querySelector('.desc-region');
+    descRegion.appendChild(warning);
+
+    setTimeout(() => {
+        warning.remove();
+    }, 5000);
 }
 
 function addSteps(method) {
