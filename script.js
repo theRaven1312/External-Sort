@@ -269,7 +269,6 @@ function addHeap()
         if (runs[i].length > 0) 
         {
             minHeap.push({ value: runs[i][0], runIndex: i, pos: 0 });
-            //Xóa phần tử đó
             runs[i].splice(0, 1);
         }
     }
@@ -286,14 +285,13 @@ function addHeap()
     }
 
     //Cập nhật lại các runs
-
     let runHolders = document.querySelectorAll('.run-holder');
     for(let i = 0; i < runHolders.length; i++)
     {
-        const firstRunItem = runHolders[i].querySelector('.run-item'); // Chọn phần tử đầu tiên
+        const firstRunItem = runHolders[i].querySelector('.run-item'); 
         if (firstRunItem) 
         {
-            firstRunItem.remove(); // Xóa phần tử
+            firstRunItem.remove();
         }
     }
 }
@@ -302,20 +300,24 @@ let resultArray = [];
 
 function sortWithHeap()
 {
+    //Xóa phần tử đầu heap(min)
     let minElement = minHeap.pop();
     resultArray.push(minElement.value);
 
+    //Thêm phần tử đó vào mảng result
     let resultItem = document.createElement('div');
     resultItem.classList.add('result-item');
     resultItem.textContent = minElement.value;
     resultRegion.appendChild(resultItem);
 
+    //Thêm phần tử từ mảng vừa xóa phần tử vào heap
     if (runs[minElement.runIndex].length > 0) 
     {
-        minHeap.push({ value: runs[minElement.runIndex][0], runIndex: minElement.runIndex, pos: 0 });
+        minHeap.push({ value: runs[minElement.runIndex][0], runIndex: minElement.runIndex, pos:0 });
         runs[minElement.runIndex].splice(0, 1);
     }
 
+    //Cập nhật lại biểu diễn heap
     let heapItems = document.querySelectorAll('.heap-item');
     heapItems.forEach(item => item.remove());
 
@@ -326,6 +328,8 @@ function sortWithHeap()
         heapRegion.appendChild(heapItem);
     }
 
+
+    //Xóa phần tử biểu diễn vừa thêm vào heap
     let runHolders = document.querySelectorAll('.run-holder');
     let firstRunItem = runHolders[minElement.runIndex].querySelector('.run-item');
     if (firstRunItem) 
@@ -333,9 +337,10 @@ function sortWithHeap()
         firstRunItem.remove();
         if(runs[minElement.runIndex].length == 0)
         {
-            runHolders[minElement.runIndex].remove();
+            runHolders[minElement.runIndex].style.display = 'none';
         }
     }
+
 }
 
 let playbtn = document.querySelector('.play-btn');
