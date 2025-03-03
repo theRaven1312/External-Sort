@@ -9,55 +9,59 @@ const runsRegion = document.querySelector('#runs-region');
 const heapRegion = document.querySelector('#heap-region');
 const resultRegion = document.querySelector('#result-region');
 
-let arr = [];
+let arr = []
 
-submitbtn.addEventListener('click', takeInput);
-input.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') {
-        takeInput();
+function takeInput(e) 
+{
+    if(e == 'Enter') 
+    {
+        arr = input.value;
+
+        if (arr.length === 0) 
+        {
+           alert('Mảng không được rỗng');
+            return;
+        }
+        arr = arr.split(' ').map(Number);
+
+        if (arr.includes(NaN))
+        {
+            alert('Mảng có chứa ký tự không phải số và khoảng trắng');
+            return;
+        }
+        
+        console.log(arr);
+        input.value = null;
+        oriarray.style.opacity = 1;
+
+        //Tiêu đề "Array"
+        let oriarrayheader = document.createElement('h2');
+        oriarrayheader.textContent = "Array";
+        oriarrayheader.classList.add('ori-header');
+        oriarray.appendChild(oriarrayheader);
+
+
+        //Hiển thị mảng
+        let arrayholder = document.createElement('div')
+        arrayholder.classList.add('array-holder');
+        oriarray.appendChild(arrayholder);
+
+        for(let i = 0; i < arr.length; i++) {
+            let arrayItem = document.createElement('div');
+            arrayItem.classList.add('array-item');
+            arrayItem.textContent = arr[i];
+            arrayholder.appendChild(arrayItem);
+        }
+
+        //Xóa vùng nhập
+        let inputRegion = document.querySelector('.input-region');
+        let parent = inputRegion.parentNode;
+        let descRegion = document.querySelector('.desc-region');
+        parent.removeChild(inputRegion);
+        parent.removeChild(descRegion);
+
+        addSteps('NMS');
     }
-});
-
-function takeInput() {
-    arr = input.value.trim();
-
-    if (arr.length === 0) {
-        alert('Mảng không được rỗng');
-        return;
-    }
-
-    arr = arr.split(' ').map(Number);
-
-    if (arr.some(isNaN)) {
-        alert('Mảng có chứa ký tự không phải số hoặc khoảng trắng không hợp lệ');
-        return;
-    }
-
-    console.log(arr);
-
-    input.value = '';
-
-    oriarray.innerHTML = ''; // Reset output
-    oriarray.style.opacity = 1;
-
-    let arrayholder = document.createElement('div');
-    arrayholder.classList.add('array-holder');
-    oriarray.appendChild(arrayholder);
-
-    for (let num of arr) {
-        let arrayItem = document.createElement('div');
-        arrayItem.classList.add('array-item');
-        arrayItem.textContent = num;
-        arrayholder.appendChild(arrayItem);
-    }
-
-    let inputRegion = document.querySelector('.input-region');
-    let parent = inputRegion.parentNode;
-    let descRegion = document.querySelector('.desc-region');
-    parent.removeChild(inputRegion);
-    parent.removeChild(descRegion);
-
-    addSteps('NMS');
 }
 
 function addSteps(method) {
@@ -94,6 +98,12 @@ function play() {
     let step2 = document.querySelector('.step:nth-child(3)');
 
     if (stage === 0) {
+
+        let runsHeader = document.createElement('h2');
+        runsHeader.classList.add('runs-header');
+        runsHeader.textContent = 'Runs';
+        runsRegion.appendChild(runsHeader);
+        
         step1.style.color = 'green';
         step1.style.scale = '1.2';
         step1.style.fontWeight = 'bold';
@@ -103,6 +113,7 @@ function play() {
         findRuns(arr);
         
     } else if (stage === 1) {
+        
         step1.style.color = 'gray';
         step1.style.transform = 'scale(1)';
         step1.style.fontWeight = 'normal';
@@ -110,7 +121,7 @@ function play() {
         step2.style.transform = 'scale(1.2)';
         step2.style.fontWeight = 'bold';
         step2.style.color = 'green';
-        stage = 2;
+        stage ++;
 
     //Biểu diễn Heap
         heapRegion.style.opacity = 1;
@@ -129,7 +140,7 @@ function play() {
         resultHeader.textContent = 'Sorted Array';
         resultRegion.appendChild(resultHeader);
     }
-        else if(stage > 1 && !minHeap.isEmpty())
+        else if(stage >= 1 && !minHeap.isEmpty())
     {
         sortWithHeap();
     }
@@ -250,7 +261,7 @@ function sortWithHeap()
         firstRunItem.remove();
         if(runs[minElement.runIndex].length == 0)
         {
-            runHolders[minElement.runIndex].remove();
+            runHolders[minElement.runIndex].style.display = 'none';
         }
     }
 }
@@ -258,3 +269,6 @@ function sortWithHeap()
 
 let playbtn = document.querySelector('.play-btn');
 
+html.addEventListener('keydown', (e) => takeInput(e.key));
+
+submitbtn.addEventListener('click', () => takeInput('Enter'));
