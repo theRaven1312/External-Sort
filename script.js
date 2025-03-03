@@ -9,7 +9,6 @@ const runsRegion = document.querySelector('#runs-region');
 const heapRegion = document.querySelector('#heap-region');
 const resultRegion = document.querySelector('#result-region');
 
-
 let arr = []
 
 function takeInput(e) 
@@ -20,15 +19,14 @@ function takeInput(e)
 
         if (arr.length === 0) 
         {
-            generateWarning('Mảng không được rỗng');
+           alert('Mảng không được rỗng');
             return;
         }
-
         arr = arr.split(' ').map(Number);
 
         if (arr.includes(NaN))
         {
-            generateWarning('Mảng có chứa ký tự không phải số và khoảng trắng');
+            alert('Mảng có chứa ký tự không phải số và khoảng trắng');
             return;
         }
         
@@ -66,20 +64,6 @@ function takeInput(e)
     }
 }
 
-function generateWarning(message) 
-{
-    let warning = document.createElement('div');
-    warning.classList.add('warning');
-    warning.textContent = "Warning: " + message;
-    warning.style.color = 'red';
-    warning.style.fontWeight = 'bold';
-    let descRegion = document.querySelector('.desc-region');
-    descRegion.appendChild(warning);
-
-    setTimeout(() => {
-        warning.remove();
-    }, 5000);
-}
 
 function addSteps(method)
 {
