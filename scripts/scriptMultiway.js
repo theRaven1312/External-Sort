@@ -323,6 +323,10 @@ function addHeap()
         if (firstRunItem) 
         {
             firstRunItem.remove();
+            if(runs[i].length == 0)
+            {
+                runHolders[i].style.display = 'none';
+            }
         }
     }
 }

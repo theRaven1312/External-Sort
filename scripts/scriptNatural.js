@@ -250,6 +250,10 @@ function addHeap()
         if (firstRunItem) 
         {
             firstRunItem.remove(); // Xóa phần tử
+            if(runs[i].length == 0)
+            {
+                runHolders[i].style.display = 'none';
+            }
         }
     }
 }
