@@ -295,7 +295,6 @@ function sortWithHeap()
     }
 }
 
-
 let playbtn = document.querySelector('.play-btn');
 
 html.addEventListener('keydown', (e) => takeInput(e.key));
