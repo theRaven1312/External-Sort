@@ -24,10 +24,15 @@ let submitbtn = document.querySelector('.submit-btn');
 submitbtn.disabled = true;
 
 // Gán sự kiện cho các nút bấm
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () 
+{
+
+    document.querySelector('#site-title').addEventListener('click', () => this.location.reload())
+
     document.querySelector(".nav-btn:nth-child(3)").addEventListener("click", function () 
     {
-        loadScript("script1.js"); // Chuyển sang Natural Merge Sort
+
+        loadScript("./scripts/scriptNatural.js"); // Chuyển sang Natural Merge Sort
         header2.textContent = 'Đã chọn Natural Merge Sort'
         chose = 1;
         inputField.disabled = false;
@@ -36,8 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    document.querySelector(".nav-btn:nth-child(4)").addEventListener("click", function () {
-        loadScript("script.js"); // Chuyển sang Multiway Balance Merge Sort
+    document.querySelector(".nav-btn:nth-child(4)").addEventListener("click", function () 
+    {
+        loadScript("./scripts/scriptMultiway.js"); // Chuyển sang Multiway Balance Merge Sort
         header2.textContent = 'Đã chọn Multiway Balance Merge Sort'
         chose = 1;
         inputField.disabled = false;
