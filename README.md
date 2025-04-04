@@ -24,7 +24,7 @@
 4. Tạo một hàm trộn các đường chạy.
 
 ### Slide nội dung
-Xem slide nội dung<a href='https://www.canva.com/design/DAGgUD63-9I/gADDIAxbMZK4I2-syTRb6A/edit?utm_content=DAGgUD63-9I&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'>TẠI ĐÂY</a>
+Xem slide nội dung <a href='https://www.canva.com/design/DAGgUD63-9I/gADDIAxbMZK4I2-syTRb6A/edit?utm_content=DAGgUD63-9I&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'>TẠI ĐÂY</a>
 
 
 
