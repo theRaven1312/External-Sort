@@ -7,8 +7,8 @@
 
 ## YÊU CẦU CỦA CHƯƠNG TRÌNH SẮP XẾP NGOẠI:
 
-- ĐẦU VÀO: một mảng các số nguyên, độ lớn vùng nhớ (max memory size)
-- ĐẦU RA: mảng đã được sắp xếp bằng thuật toán sắp xếp ngoại
+- ĐẦU VÀO: một mảng các số nguyên.
+- ĐẦU RA: mảng đã được sắp xếp bằng thuật toán sắp xếp ngoại.
 
 ### ĐỐI VỚI NATURAL MERGE SORT
 
