@@ -1,306 +1,222 @@
-import { MinHeap } from "./multiwayBalanceMergeSort.js";
-import { startFireworks } from "./firework.js";
+import { clearResults, displayOriginalArray, displayRuns } from './utils.js';
 
-const html = document.querySelector('html');
-const input = document.querySelector('.array-input');
-const submitbtn = document.querySelector('.submit-btn');
-const oriarray = document.querySelector('#ori-array');
-const pseudo = document.querySelector('#pseudo');
-const runsRegion = document.querySelector('#runs-region');
-const heapRegion = document.querySelector('#heap-region');
-const resultRegion = document.querySelector('#result-region');
-
-let arr = []
-
-function takeInput(e) 
-{
-    if(e == 'Enter') 
-    {
-        arr = input.value;
-
-        if (arr.length === 0) 
-        {
-           generateWarning('Mảng không được rỗng');
-            return;
-        }
-        arr = arr.split(' ').map(Number);
-
-        if (arr.includes(NaN))
-        {
-            generateWarning('Mảng có chứa ký tự không phải số hoặc khoảng trắng');
-            return;
-        }
-        
-        console.log(arr);
-        input.value = null;
-        oriarray.style.opacity = 1;
-
-        //Tiêu đề "Array"
-        let oriarrayheader = document.createElement('h2');
-        oriarrayheader.textContent = "Array";
-        oriarrayheader.classList.add('ori-header');
-        oriarray.appendChild(oriarrayheader);
-
-
-        //Hiển thị mảng
-        let arrayholder = document.createElement('div')
-        arrayholder.classList.add('array-holder');
-        oriarray.appendChild(arrayholder);
-
-        for(let i = 0; i < arr.length; i++) {
-            let arrayItem = document.createElement('div');
-            arrayItem.classList.add('array-item');
-            arrayItem.textContent = arr[i];
-            arrayholder.appendChild(arrayItem);
-        }
-
-        //Xóa vùng nhập
-        let inputRegion = document.querySelector('.input-region');
-        let parent = inputRegion.parentNode;
-        let descRegion = document.querySelector('.desc-region');
-        parent.removeChild(inputRegion);
-        parent.removeChild(descRegion);
-
-        addSteps('NMS');
-    }
-}
-
-function generateWarning(message) 
-{
-    let warning = document.createElement('div');
-    warning.classList.add('warning');
-    warning.textContent = "Warning: " + message;
-    warning.style.color = 'red';
-    warning.style.fontWeight = 'bold';
-    let descRegion = document.querySelector('.desc-region');
-    descRegion.appendChild(warning);
-
-    setTimeout(() => {
-        warning.remove();
-    }, 5000);
-}
-
-function addSteps(method) {
-    if (method === 'NMS') {
-        let title = document.createElement('h1');
-        title.textContent = 'Natural Merge Sort';
-        pseudo.appendChild(title);
-
-        let step1 = document.createElement('div');
-        step1.classList.add('step');
-        step1.textContent = 'Step 1: Identify subsequences with increasing runs';
-        pseudo.appendChild(step1);
-
-        let step2 = document.createElement('div');
-        step2.classList.add('step');
-        step2.textContent = 'Step 2: Merge runs using min heap';
-        pseudo.appendChild(step2);
-    }
-
-    addPlayButton();
-}
-
-function addPlayButton() {
-    let playbtn = document.createElement('button');
-    playbtn.classList.add('play-btn');
-    pseudo.appendChild(playbtn);
-    playbtn.addEventListener('click', () => play());
-}
-
-let stage = 0;
-let refresh = 0;
-
-function play() {
-    let step1 = document.querySelector('.step:nth-child(2)');
-    let step2 = document.querySelector('.step:nth-child(3)');
-
-    if (stage === 0) {
-
-        let runsHeader = document.createElement('h2');
-        runsHeader.classList.add('runs-header');
-        runsHeader.textContent = 'Runs';
-        runsRegion.appendChild(runsHeader);
-        
-        step1.style.color = 'green';
-        step1.style.scale = '1.2';
-        step1.style.fontWeight = 'bold';
-        stage++;
-        runsRegion.style.opacity = 1;
-
-        findRuns(arr);
-        
-    } else if (stage === 1) {
-        
-        step1.style.color = 'gray';
-        step1.style.transform = 'scale(1)';
-        step1.style.fontWeight = 'normal';
-
-        step2.style.transform = 'scale(1.2)';
-        step2.style.fontWeight = 'bold';
-        step2.style.color = 'green';
-        stage ++;
-
-    //Biểu diễn Heap
-        heapRegion.style.opacity = 1;
-    //Thêm tiêu đề
-        let heapHeader = document.createElement('h2');
-        heapHeader.classList.add('heap-header');
-        heapHeader.textContent = 'Min-Heap';
-        heapRegion.appendChild(heapHeader);
-
-        addHeap(runs);
-
-        resultRegion.style.opacity = 1;
-
-        let resultHeader = document.createElement('h2');
-        resultHeader.classList.add('result-header');
-        resultHeader.textContent = 'Sorted Array';
-        resultRegion.appendChild(resultHeader);
-    }
-    else if(stage >= 1 && !minHeap.isEmpty())
-    {
-        sortWithHeap();
-        stage++;
-    }
-    else if(stage > 1 && minHeap.isEmpty() && refresh == 0)
-    {
-        let playbtn = document.querySelector('.play-btn');
-        playbtn.style.backgroundImage = 'url(./media/reloading.png)';
-        refresh = 1;
-        startFireworks();
-    }
-    else if(stage > 1 && refresh == 1) 
-    {
-        location.reload();
-    }
-        
-}
-
-
+let i = 0;
 let runs = [];
 
-function findRuns(arr)
-{
-    let run = [arr[0]];
-    for(let i = 0; i < arr.length; i++)
-    {
-        if(arr[i] < arr[i + 1])
-        {
-            run.push(arr[i + 1]);
-        }
-        else
-        {
-            runs.push(run);
-            run = [arr[i + 1]];
-        }
-    }
-
-    console.log(runs);
-
-    for(let i = 0; i < runs.length; i++)
-    {
-        let runholder = document.createElement('div');
-        runholder.classList.add('run-holder');
-        runsRegion.appendChild(runholder);
-  
-        for(let j = 0; j < runs[i].length; j++)
-        {
-            let runItem = document.createElement('div');
-            runItem.classList.add('run-item');
-            runItem.textContent = runs[i][j];
-            runholder.appendChild(runItem);
-        }
-    }
-
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let minHeap = new MinHeap();
 
-function addHeap()
+function processNaturalMergeSort(array)
 {
-    //Thêm phần tử đầu vào heap
-    for (let i = 0; i < runs.length; i++) 
+    let playBtn = document.querySelector('.play-btn');
+
+    let stage = 1;
+
+    if(playBtn)
     {
-        if (runs[i].length > 0) 
+        playBtn.addEventListener('click', async () =>
         {
-            minHeap.push({ value: runs[i][0], runIndex: i, pos: 0 });
-            //Xóa phần tử đó
-            runs[i].splice(0, 1);
-        }
-    }
-
-    console.log(runs);
-
-    //Biểu diễn Heap
-    for(let i = 0; i < minHeap.heap.length; i++)
-    {
-        let heapItem = document.createElement('div');
-        heapItem.classList.add('heap-item');
-        heapItem.textContent = minHeap.heap[i].value;
-        heapRegion.appendChild(heapItem);
-        
-    }
-
-    //Cập nhật lại các runs
-
-    let runHolders = document.querySelectorAll('.run-holder');
-    for(let i = 0; i < runHolders.length; i++)
-    {
-        const firstRunItem = runHolders[i].querySelector('.run-item'); // Chọn phần tử đầu tiên
-        if (firstRunItem) 
-        {
-            firstRunItem.remove(); // Xóa phần tử
-            if(runs[i].length == 0)
+            console.log('play button clicked');
+            let steps = document.querySelectorAll('.step');
+            switch (stage)
             {
-                runHolders[i].style.display = 'none';
+                case 1:
+                    const oriArray = document.querySelector('#ori-array');
+                    oriArray.style.opacity = '1';
+                    displayOriginalArray(array);
+                    stage++;
+                    break;
+                case 2:
+                    runs = findNaturalRuns(array);
+                    const runsRegion = document.getElementById('runs-region');
+                    runsRegion.style.opacity = '1';
+                    displayRuns(runs);
+                    steps[0].classList.replace('unfocus', 'focus');
+                    stage++;
+                    break;
+                case 3:
+                    const heapRegion = document.getElementById('heap-region');
+                    heapRegion.style.opacity = '1';
+
+                    const heapHeader = document.createElement('h3');
+                    heapHeader.textContent = 'Buffer';
+                    heapHeader.className = 'heap-header';
+                    heapRegion.appendChild(heapHeader);
+                    // Create result header                
+                    steps[1].classList.replace('unfocus', 'focus');
+                    steps[0].classList.replace('focus', 'unfocus');
+                    stage++;
+                    break;
+                case 4:
+                    if (runs.length == 1) 
+                    {
+                        stage++;
+                        const resultRegion = document.getElementById('result-region');
+                        resultRegion.style.opacity = '1';
+                        const resultHeader = document.createElement('h3');
+                        resultHeader.textContent = 'Kết quả';
+                        resultHeader.className = 'result-header';
+                        resultRegion.appendChild(resultHeader);
+                        runs[0].forEach(item => {
+                            const itemDiv = document.createElement('div');
+                            itemDiv.className = 'result-item';
+                            itemDiv.textContent = item;
+                            resultRegion.appendChild(itemDiv);
+                        });
+                    }
+                    
+                    playBtn.style.display = 'none';
+
+                    await simulateMerging(runs);
+
+                    playBtn.style.display = 'inline-block';
+                    i++;
+                    break;
+
             }
-        }
+        });
     }
+
+    // // Find natural runs in the array
+    // const runs = findNaturalRuns(array);
+    
+    // // Display runs
+    // displayRuns(runs);
+    
+    // // Simulate merging process
+    // simulateMerging(runs);
 }
 
-let resultArray = [];
-
-function sortWithHeap()
+function findNaturalRuns(array) 
 {
-    let minElement = minHeap.pop();
-    resultArray.push(minElement.value);
-
-    let resultItem = document.createElement('div');
-    resultItem.classList.add('result-item');
-    resultItem.textContent = minElement.value;
-    resultRegion.appendChild(resultItem);
-   
-
-    if (runs[minElement.runIndex].length > 0) 
-    {
-        minHeap.push({ value: runs[minElement.runIndex][0], runIndex: minElement.runIndex, pos: 0 });
-        runs[minElement.runIndex].splice(0, 1);
+    const runs = [];
+    let currentRun = [array[0]];
+    
+    for (let i = 1; i < array.length; i++) {
+        if (array[i] >= array[i-1]) {
+            // Current element continues the run
+            currentRun.push(array[i]);
+        } else {
+            // Current element starts a new run
+            runs.push([...currentRun]);
+            currentRun = [array[i]];
+        }
     }
     
-    let heapItems = document.querySelectorAll('.heap-item');
-    heapItems.forEach(item => item.remove());
-
-    for (let i = 0; i < minHeap.heap.length; i++) {
-        let heapItem = document.createElement('div');
-        heapItem.classList.add('heap-item');
-        heapItem.textContent = minHeap.heap[i].value;
-        heapRegion.appendChild(heapItem);
+    // Add the last run
+    if (currentRun.length > 0) {
+        runs.push(currentRun);
     }
+    
+    return runs;
+}
 
-    let runHolders = document.querySelectorAll('.run-holder');
-    let firstRunItem = runHolders[minElement.runIndex].querySelector('.run-item');
-    if (firstRunItem) 
-    {
-        firstRunItem.remove();
-        if(runs[minElement.runIndex].length == 0)
+async function simulateMerging(runs) {
+
+    if(i >= runs.length) { i = 0; }
+
+    let runsholders = document.querySelectorAll('.run-holder');
+    let heapRegion = document.getElementById('heap-region');
+
+    let bufferRuns = [];
+
+    if (i + 1 < runs.length) 
         {
-            runHolders[minElement.runIndex].style.display = 'none';
-        }
+        // Bước 1: highlight 2 run
+        runsholders[i].animate([{ transform: 'scale(1)' }, { transform: 'scale(1.2)' }, { transform: 'scale(1)' }], {
+            duration: 500, easing: 'ease-in-out'
+        });
+        runsholders[i].style.backgroundColor = 'rgba(76, 175, 80, 0.8)';
+        runsholders[i].style.boxShadow = '0px 0px 20px rgba(76, 175, 80, 0.8)';
+
+
+        runsholders[i + 1].animate([{ transform: 'scale(1)' }, { transform: 'scale(1.2)' }, { transform: 'scale(1)' }], {
+            duration: 500, easing: 'ease-in-out'
+        });
+        runsholders[i + 1].style.backgroundColor = 'rgba(76, 175, 80, 0.8)';
+        runsholders[i].style.boxShadow = '0px 0px 20px rgba(76, 175, 80, 0.8)';
+
+
+        await delay(500); // Đợi animation xong
+
+        // Bước 2: tạo heap-holder
+        let heapHolder = document.createElement('div');
+        heapHolder.className = 'heap-holder';
+
+        runs[i].forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'heap-item';
+            itemDiv.textContent = item;
+            heapHolder.appendChild(itemDiv);
+        });
+
+        runs[i + 1].forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'heap-item';
+            itemDiv.textContent = item;
+            heapHolder.appendChild(itemDiv);
+        });
+
+        bufferRuns = [...runs[i], ...runs[i + 1]];
+        heapRegion.appendChild(heapHolder);
+
+        await delay(400); // Tiếp tục
+
+        // Bước 3: animate heap
+        let heapItems = heapRegion.querySelectorAll('.heap-item');
+        heapItems.forEach((item, index) => {
+            item.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.2)', boxShadow: '0px 0px 20px rgba(76, 175, 80, 0.8)'},
+                { transform: 'scale(1)', boxShadow: 'none'}
+            ], { duration: 600, easing: 'ease-in-out' });});
+
+
+
+
+        // Bước 4: sắp xếp và hiển thị lại heap
+        bufferRuns.sort((a, b) => a - b);
+
+        heapItems.forEach((item, index) => {
+            item.textContent = bufferRuns[index];
+        });
+
+        await delay(800);
+
+        // Bước 5: xoá run cũ, chèn run mới
+        let runsRegion = document.getElementById('runs-region');
+        let runHolders = document.querySelectorAll('.run-holder');
+
+        runHolders[i].remove();
+        runHolders[i + 1].remove();
+
+        let newRunHolder = document.createElement('div');
+        newRunHolder.className = 'run-holder';
+
+        bufferRuns.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'run-item';
+            itemDiv.textContent = item;
+            newRunHolder.appendChild(itemDiv);
+        });
+
+        runsRegion.insertBefore(newRunHolder, runHolders[i+2]); // Cẩn thận index
+
+        runs.splice(i, 2, bufferRuns);
+
+        newRunHolder.animate([
+            { transform: 'scale(1)' },
+            { transform: 'scale(1.2)', backgroundColor: 'var(--primary-color)', color: 'white' },
+            { transform: 'scale(1)', backgroundColor: 'var(--background-color)', color: 'var(--text-color)' }
+        ], { duration: 400, easing: 'ease-in-out' });
+
+        await delay(600);
+
+        heapRegion.querySelector('.heap-holder').remove();
+
     }
 }
 
-let playbtn = document.querySelector('.play-btn');
-
-html.addEventListener('keydown', (e) => takeInput(e.key));
-
-submitbtn.addEventListener('click', () => takeInput('Enter'));
+export { processNaturalMergeSort };

@@ -1,52 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>External Sort</title>
+    <meta name="description" content="Mô phỏng thuật toán sắp xếp ngoại - External Sort với Natural Merge Sort và Multiway Balance Merge Sort">
+    <meta name="keywords" content="external sort, natural merge sort, multiway balance merge sort, thuật toán sắp xếp, sắp xếp ngoại">
+    <meta name="author" content="DIEGO & b1endong with helps of Claude">
+    <title>External Sort - Thuật Toán Sắp Xếp Ngoại</title>
     <link rel="stylesheet" href="style.css">
-    <script type = 'module' src="./scripts/switchMethod.js" defer></script>
+    <link rel="stylesheet" href="extra-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="module" src="/scripts/switchMethod.js" defer></script>
 </head>
 <body>
-    <div class = "nav-bar">
-        <div class="nav-item">
-            <div id="site-title">External Sort</div>
+    <header>
+        <div class="nav-bar">
+            <div class="nav-item">
+                <div id="site-title">External Sort</div>
+            </div>
+            <div class="nav-item">
+                <p id="divider"></p>
+            </div>
+            <div class="nav-item nav-btn active" id="nms-btn">
+                <p>Natural Merge Sort</p>
+            </div>
+            <div class="nav-item nav-btn" id="mbms-btn">
+                <p>Multiway Balance Merge Sort</p>
+            </div>
         </div>
-        <div class="nav-item">
-            <p id = 'divider'>|</p>
+    </header>
+
+    <main>
+        <div class="grid-container">
+            <div id="pseudo" class="grid-item">
+                <div class="input-region">
+                    <h2>Chọn thuật toán: Natural Merge Sort</h2>
+                    <input class="array-input" type="text" placeholder="23 87 15 67 34 92 5 77 11 42 98 1 35 63 82 49 74 25 31 59">
+                    <button class="submit-btn" id="submit-btn">Nhập</button>
+                </div>
+                <div class="desc-region">
+                    <p class="array-input-desc">Nhập một mảng với các phần tử cách nhau một khoảng trắng " "</p>
+                    <p>Ví dụ: 
+                        <br>
+                        23 87 15 67 34 92 5 77 11 42 98 1 35 63 82 49 74 25 31 59
+                    </p>
+                </div>
+            </div>
+            <div class="grid-item" id="ori-array">
+                <!-- Original array will be displayed here -->
+            </div>
+            <div class="grid-item" id="runs-region">
+                <!-- Runs will be displayed here -->
+            </div>
+            <div class="grid-item" id="heap-region">
+                <!-- Heap operations will be displayed here -->
+            </div>
+            <div class="grid-item" id="result-region">
+                <!-- Results will be displayed here -->
+            </div>
         </div>
-        <div class= 'nav-item nav-btn'>
-            <p>Natural Merge Sort</p>
-        </div>
-        <div class= 'nav-item nav-btn'>
-            <p>Multiway Balance Merge Sort</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 External Sort Demo | <a href="#" id="about-link">Thông tin</a></p>
+    </footer>
+
+    <!-- Modal for About -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Về External Sort</h2>
+            <p>External Sort là một kỹ thuật sắp xếp được sử dụng khi dữ liệu quá lớn để có thể lưu trữ trong bộ nhớ chính.</p>
+            <h3>Các thuật toán sắp xếp ngoại:</h3>
+            <ul>
+                <li><strong>Natural Merge Sort</strong> - tận dụng các run đã được sắp xếp sẵn trong dữ liệu đầu vào</li>
+                <li><strong>Multiway Balance Merge Sort</strong> - sử dụng kỹ thuật trộn nhiều đường đồng thời</li>
+            </ul>
+            <p>Demo này giúp minh họa trực quan cách hoạt động của các thuật toán sắp xếp ngoại.</p>
+            <p>Truy cập Github: <a href="https://github.com/theRaven1312/External-Sort" target="_blank">TẠI ĐÂY</a> để tham khảo thêm</p>
         </div>
     </div>
 
-    <div class = "grid-container">
-        <div id = 'pseudo' class="grid-item">
-            <div class= 'input-region'>
-                <h2>Chọn thuật toán sắp xếp ngoại</h2>
-                <input class="array-input" type="text" placeholder="">
-                <button class = 'submit-btn' id = 'submit-btn'>Nhập</button>
-            </div>
-            <div class= 'desc-region'>
-                <p class="array-input-desc">Nhập một mảng với các phần tử cách nhau một khoảng trắng " "
-                </p>
-                <p>Ví dụ: 
-                    <br>
-                    23 87 15 67 34 92 5 77 11 42 98 1 35 63 82 49 74 25 31 59
-                </p>
-            </div>
-        </div>
-        <div class="grid-item" id="ori-array">
-        </div>
-        <div class="grid-item" id='runs-region'>
-        </div>
-        <div class="grid-item" id ='heap-region'>
-        </div>
-        <div class="grid-item" id = 'result-region'>
-        </div>
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p>Đang xử lý...</p>
     </div>
+
+    <!-- Additional script for modal and other UI interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal control
+            const modal = document.getElementById('about-modal');
+            const aboutLink = document.getElementById('about-link');
+            const closeBtn = document.querySelector('.close-btn');
+            
+            aboutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.style.display = 'block';
+                
+                // Animation for modal
+                const modalContent = document.querySelector('.modal-content');
+                modalContent.style.transform = 'translateY(-50px)';
+                modalContent.style.opacity = '0';
+                
+                setTimeout(() => {
+                    modalContent.style.transition = 'all 0.3s ease-out';
+                    modalContent.style.transform = 'translateY(0)';
+                    modalContent.style.opacity = '1';
+                }, 10);
+            });
+            
+            closeBtn.addEventListener('click', function() {
+                const modalContent = document.querySelector('.modal-content');
+                modalContent.style.transform = 'translateY(0)';
+                modalContent.style.opacity = '1';
+                
+                modalContent.style.transition = 'all 0.3s ease-in';
+                modalContent.style.transform = 'translateY(-50px)';
+                modalContent.style.opacity = '0';
+                
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
